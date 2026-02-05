@@ -2,11 +2,11 @@
   ros__parameters:
     trigger_mode: "freerun"  # freerun (topics), software (services)
     operation_mode: "camera"  # camera (quicker, lower quality), scanner (slower, higher quality), mode2d (only texture)
-    hardware_id: ""  # camera serial number
+    hardware_id: "JEG-086"  # camera serial number
     use_pointcloud: True
     use_color_camera_image: False
     use_confidence_map: False
-    use_depth_map: True
+    use_depth_map: False
     use_event_map: False
     use_normal_map: False
     use_texture: False

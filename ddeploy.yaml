@@ -1,0 +1,34 @@
+project_name: converging_noether_demo
+image_name: phoxi-mine
+base_image: tecnalia-robotics-docker.artifact.tecnalia.dev/flexbotics-base-devel:jazzy
+ros_distro: jazzy
+project_sources:
+  - .
+cmd: 'bash -lc "LD_LIBRARY_PATH=/opt/Photoneo/PhoXiControl-1.16.4/API/lib:$LD_LIBRARY_PATH PHOXI_CONTROL_PATH=/opt/Photoneo/PhoXiControl-1.16.4 service dbus start && ros2 launch phoxi_camera_ros2 phoxi_camera.launch.py"'
+before_script: >
+  export PIP_BREAK_SYSTEM_PACKAGES=1 &&
+  apt-get update && apt-get install -y --no-install-recommends
+  avahi-daemon
+  libavahi-client3
+  libgl1
+  xcb
+  libfontconfig1
+  libxcb-icccm4
+  libxcb-image0
+  libxcb-keysyms1
+  libxcb-render-util0
+  libxcb-render0
+  libxcb-shape0
+  libxcb-xkb1
+  zip
+  wget
+  &&
+  wget -q https://photoneo.com/files/dw/dw/pxc/1.16/PhotoneoPhoXiControlInstaller-1.16.4-Ubuntu22-STABLE.tar.gz -P /tmp/  &&
+  tar -xvf "/tmp/PhotoneoPhoXiControlInstaller-1.16.4-Ubuntu22-STABLE.tar.gz" -C /tmp/ &&
+  "/tmp/PhotoneoPhoXiControlInstaller-1.16.4-Ubuntu22-STABLE.run" --accept &&
+  rm -rf /tmp/* &&
+  export PHOXI_CONTROL_PATH=/opt/Photoneo/PhoXiControl-1.16.4
+after_script: |
+  sudo rm /etc/apt/sources.list.d/tecnalia.list
+  sudo rm -rf /var/lib/apt/lists/*
+  sudo rm -rf /var/cache/apt/archives/*.deb

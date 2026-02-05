@@ -32,7 +32,7 @@
 #include "sensor_msgs/msg/image.hpp"
 #include "sensor_msgs/image_encodings.hpp"
 #include "sensor_msgs/fill_image.hpp"
-#include "cv_bridge/cv_bridge.h"
+#include "cv_bridge/cv_bridge.hpp"
 #include "pcl_conversions/pcl_conversions.h"
 #include "rmw/types.h"
 

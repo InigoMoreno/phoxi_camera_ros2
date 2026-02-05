@@ -33,7 +33,7 @@ RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key  -o
 
 
 # install Photoneo
-COPY PhotoneoPhoXiControlInstaller-1.9.1-Ubuntu20-STABLE.tar.gz /tmp/
+# COPY PhotoneoPhoXiControlInstaller-1.9.1-Ubuntu20-STABLE.tar.gz /tmp/
 RUN apt-get update && apt-get install -y --no-install-recommends \
     avahi-daemon \
     libavahi-client3 \
@@ -45,6 +45,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxrandr2 \
     qt5dxcb-plugin \
     zip \
+    wget \
+    # && wget -q https://photoneo.com/files/dw/dw/pxc/1.16/PhotoneoPhoXiControlInstaller-1.16.4-Ubuntu22-STABLE.tar.gz -P /tmp/ \
+    && wget -q https://photoneo.com/files/dw/dw/pxc/1.9/PhotoneoPhoXiControlInstaller-1.9.1-Ubuntu20-STABLE.tar.gz -P /tmp/ \
     && tar -xvf "/tmp/PhotoneoPhoXiControlInstaller-1.9.1-Ubuntu20-STABLE.tar.gz" -C /tmp/ \
     && "/tmp/PhotoneoPhoXiControlInstaller-1.9.1-Ubuntu20-STABLE.run" --accept \
     && rm -rf /tmp/*
