@@ -21,6 +21,7 @@
   <depend>robot_state_publisher</depend>
   <depend>rviz2</depend>
   <depend>sensor_msgs</depend>
+  <depend>phoxicontrol</depend>
   <depend>xacro</depend>
 
   <test_depend>ament_lint_auto</test_depend>

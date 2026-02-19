@@ -1,0 +1,58 @@
+#!/bin/bash
+set -e
+
+INSTALLER="/opt/photoneo/installer/PhotoneoPhoXiControlInstaller-1.16.4-Ubuntu22-STABLE.run"
+INSTALL_DIR="/opt/Photoneo/PhoXiControl-1.16.4"
+ENV_FILE="/etc/profile.d/phoxicontrol.sh"
+
+case "$1" in
+    configure)
+        echo "Running PhoXiControl installer..."
+        chmod +x "$INSTALLER"
+        echo "n" | "$INSTALLER" --accept
+        rm -f "$INSTALLER"
+        rmdir --ignore-fail-on-non-empty "/opt/photoneo/installer"
+        rmdir --ignore-fail-on-non-empty "/opt/photoneo"
+        echo "Installing PhoXiControl wrapper..."
+        mv "$INSTALL_DIR/bin/PhoXiControl" "$INSTALL_DIR/bin/PhoXiControl.real"
+        cat > /bin/PhoXiControl << 'EOF'
+#!/bin/bash
+export PHOXI_CONTROL_PATH=/opt/Photoneo/PhoXiControl-1.16.4
+export LC_ALL=C
+
+# Check if running inside a Docker container
+if [ -f /.dockerenv ]; then
+    SHM_SOURCE=$(findmnt -n -o SOURCE /dev/shm)
+
+    if [ "$SHM_SOURCE" = "shm" ]; then
+        echo "ERROR: /dev/shm is Docker's isolated shm, not the host's." >&2
+        echo "ERROR: PhoXiControl POSIX shared memory will not work correctly." >&2
+        echo "ERROR: Recreate the container with: --volume /dev/shm" >&2
+        exit 1
+    fi
+fi
+
+# Start dbus if not already running
+if ! pgrep -x dbus-daemon > /dev/null; then
+    sudo service dbus start
+fi
+
+# Start avahi-daemon if not already running
+if ! pgrep -x avahi-daemon > /dev/null; then
+    sudo /usr/sbin/avahi-daemon --daemonize
+fi
+
+exec /opt/Photoneo/PhoXiControl-1.16.4/bin/PhoXiControl.real "$@"
+EOF
+chmod +x /bin/PhoXiControl
+
+        echo "Adding sudoers rule for PhoXiControl services..."
+        echo "%sudo ALL=(ALL) NOPASSWD: /usr/sbin/service dbus start, /usr/sbin/avahi-daemon --daemonize" \
+          > /etc/sudoers.d/phoxicontrol
+        chmod 440 /etc/sudoers.d/phoxicontrol
+
+        echo "PhoXiControl installed successfully."
+        ;;
+esac
+
+exit 0

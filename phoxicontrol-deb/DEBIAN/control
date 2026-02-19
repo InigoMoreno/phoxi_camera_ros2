@@ -1,0 +1,21 @@
+Package: phoxicontrol
+Version: 1.16.4
+Section: misc
+Priority: optional
+Architecture: amd64
+Depends: avahi-daemon,
+         libavahi-client3,
+         libgl1,
+         libfontconfig1,
+         libxcb-icccm4,
+         libxcb-image0,
+         libxcb-keysyms1,
+         libxcb-render-util0,
+         libxcb-render0,
+         libxcb-shape0,
+         libxcb-xkb1,
+         libxcb-xinerama0
+Maintainer: Iñigo Moreno <inigo.moreno@tecnalia.com>
+Description: Photoneo PhoXiControl 1.16.4
+ Photoneo PhoXiControl sensor software and API library.
+ Installs PhoXiControl to /opt/Photoneo/PhoXiControl-1.16.4.
