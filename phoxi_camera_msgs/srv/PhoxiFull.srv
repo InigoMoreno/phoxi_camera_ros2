@@ -1,0 +1,11 @@
+# Request
+bool save  # Is data saved to files
+---
+# Response
+sensor_msgs/PointCloud2 cloud
+sensor_msgs/Image color_camera_image
+sensor_msgs/Image confidence_map
+sensor_msgs/Image depth_map
+sensor_msgs/Image event_map
+sensor_msgs/Image normal_map
+sensor_msgs/Image texture

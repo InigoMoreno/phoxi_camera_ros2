@@ -1,0 +1,5 @@
+# Request
+bool save  # Is data saved to file
+---
+# Response
+sensor_msgs/Image image

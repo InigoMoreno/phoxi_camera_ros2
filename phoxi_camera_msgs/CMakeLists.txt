@@ -21,9 +21,9 @@ find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-        "srv/PhoxiCloud.idl"
-        "srv/PhoxiFull.idl"
-        "srv/PhoxiImg.idl"
+        "srv/PhoxiCloud.srv"
+        "srv/PhoxiFull.srv"
+        "srv/PhoxiImg.srv"
         ADD_LINTER_TESTS
         DEPENDENCIES
         "sensor_msgs"
