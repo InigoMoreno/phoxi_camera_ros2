@@ -144,6 +144,6 @@ def generate_launch_description():
         shutdown_event,
         phoxi_camera_api,
         rviz2_node,
-        state_publisher_node
+        # state_publisher_node
     ])
     return ld

@@ -28,7 +28,14 @@
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </link>
 
-    <joint name="${prefix}_base_to_fov_joint" type="fixed">
+    <link name="${prefix}_camera_tool0"/>
+    <joint name="${prefix}_camera_tool0" type="fixed">
+      <origin xyz="0 0 ${pose['distance']}"/>
+      <parent link="${prefix}_camera_link"/>
+      <child link="${prefix}_camera_tool0"/>
+    </joint>
+
+    <!-- <joint name="${prefix}_base_to_fov_joint" type="fixed">
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <parent link="${prefix}_base_link"/>
       <child link="${prefix}_fov_link"/>
@@ -43,7 +50,7 @@
           <color rgba="0.1 1.0 0.1 0.1"/>
         </material>
       </visual>
-    </link>
+    </link> -->
 
   </xacro:macro>
 </robot>
