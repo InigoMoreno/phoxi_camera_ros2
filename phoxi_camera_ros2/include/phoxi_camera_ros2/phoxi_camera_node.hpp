@@ -76,6 +76,7 @@ private:
   PhoxiCameraPtr phoxi_camera_{nullptr};
   rclcpp::TimerBase::SharedPtr process_timer_;
   rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::PointCloud2>::SharedPtr pcd_pub_{};
+  rclcpp_lifecycle::LifecyclePublisher<sensor_msgs::msg::CameraInfo>::SharedPtr camera_info_pub_;
   std::unordered_map<PhoxiMat, ImgMsgPtr> img_pubs_;
   std::unordered_map<PhoxiMat, ImgSrvPtr> img_srvs_;
   std::unordered_map<PhoxiMat,

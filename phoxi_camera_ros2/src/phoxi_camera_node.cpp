@@ -156,6 +156,8 @@ bool PhoxiCameraNode::onConfigure()
       }
       break;
   }
+  camera_info_pub_ = this->create_publisher<sensor_msgs::msg::CameraInfo>(
+  "~/camera_info", rclcpp::QoS(1).transient_local());
   return success;
 }
 
@@ -177,6 +179,14 @@ void PhoxiCameraNode::onActivate()
       break;
   }
   phoxi_camera_->phoxiActivate();
+  camera_info_pub_->on_activate();
+
+  phoxi_camera_->updateFrame();
+  cv::Mat ref_mat = phoxi_camera_->getTexture();
+  auto camera_info = phoxi_camera_->getCameraInfo(
+    tf_prefix_ + "_camera_link", ref_mat.cols, ref_mat.rows);
+  camera_info.header.stamp = this->get_clock()->now();
+  camera_info_pub_->publish(camera_info);
 }
 
 void PhoxiCameraNode::onDeactivate()
@@ -190,6 +200,7 @@ void PhoxiCameraNode::onDeactivate()
       img_pub.second->on_deactivate();
     }
   }
+  camera_info_pub_->on_deactivate();
   phoxi_camera_->phoxiStop();
 }
 
