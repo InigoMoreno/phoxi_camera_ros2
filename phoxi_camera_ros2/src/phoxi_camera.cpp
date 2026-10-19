@@ -270,6 +270,31 @@ cv::Mat PhoxiCamera::getTexture()
   return texture;
 }
 
+sensor_msgs::msg::CameraInfo PhoxiCamera::getCameraInfo(
+  const std::string & frame_id, int width, int height)
+{
+  sensor_msgs::msg::CameraInfo info;
+  info.header.frame_id = frame_id;
+  info.width = width;
+  info.height = height;
+
+  const pho::api::PhoXiCalibrationSettings & calib = device_->CalibrationSettings;
+  const pho::api::CameraMatrix64f & K = calib.CameraMatrix;
+  const std::vector<double> & dist = calib.DistortionCoefficients;
+
+  info.k = {
+    K[0][0], K[0][1], K[0][2],
+    K[1][0], K[1][1], K[1][2],
+    K[2][0], K[2][1], K[2][2]
+  };
+
+  // Photoneo order: (k1, k2, p1, p2[, k3[, k4, k5, k6[...]]])
+  info.d.assign(dist.begin(), dist.begin() + std::min<size_t>(dist.size(), 8));
+  info.distortion_model = (info.d.size() > 5) ? "rational_polynomial" : "plumb_bob";
+
+  return info;
+}
+
 void PhoxiCamera::phoxiActivate()
 {
   device_->ClearBuffer();

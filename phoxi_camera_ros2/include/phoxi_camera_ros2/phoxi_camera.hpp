@@ -31,6 +31,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <sensor_msgs/msg/camera_info.hpp>
 #include "opencv2/core/core.hpp"
 #include "opencv2/core/mat.hpp"
 #include "opencv2/imgcodecs.hpp"
@@ -84,6 +85,7 @@ public:
   void updateFrame();
 
   pcl::PointCloud<pcl::PointXYZ>::Ptr getPCD();
+  sensor_msgs::msg::CameraInfo getCameraInfo(const std::string & frame_id, int width, int height);
   cv::Mat getConfidenceMap();
   cv::Mat getColorCameraImage();
   cv::Mat getDepthMap();
